@@ -1,0 +1,42 @@
+[
+  {
+    "step": "navigate",
+    "url": "http://localhost:3001",
+    "title": "Bag SDK Sample",
+    "hasStarter": true,
+    "hasPro": true,
+    "hasEnterprise": true,
+    "hasBuy999": true
+  },
+  {
+    "step": "1-storefront",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/1-storefront.png"
+  },
+  {
+    "step": "redirect",
+    "url": "http://localhost:3000/pay/5bb9ccf3-f204-42db-b193-0d59687d207a",
+    "isCheckout": true
+  },
+  {
+    "step": "2-checkout",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/2-checkout.png"
+  },
+  {
+    "step": "success",
+    "successVisible": true
+  },
+  {
+    "step": "3-success",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/3-success.png"
+  },
+  {
+    "step": "dashboard",
+    "dashboardVisible": true,
+    "hasPaymentLinks": true,
+    "hasStarterLink": true
+  },
+  {
+    "step": "4-dashboard",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/4-dashboard.png"
+  }
+]

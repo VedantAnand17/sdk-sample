@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bag SDK Sample
 
-## Getting Started
+A sample Next.js storefront demonstrating how to integrate [Bag](https://justusebag.xyz) — the Merchant of Record for stablecoin payments — using the `@tbagtapp/sdk` TypeScript SDK.
 
-First, run the development server:
+## What this shows
+
+- **Storefront** — A pricing page with three products. Click "Buy" to create a payment link via the SDK and redirect to Bag's hosted checkout.
+- **Success page** — Post-payment confirmation screen.
+- **Dashboard** — Lists all payment links and transactions created through the SDK.
+- **API routes** — Server-side usage of `bag.paymentLinks` and `bag.transactions` methods.
+
+## Quick start
 
 ```bash
+# 1. Clone the repo
+git clone https://github.com/getbagsapp/sdk-sample.git
+cd sdk-sample
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Bag test API key
+
+# 4. Run the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the storefront.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+| --- | --- |
+| `BAG_API_KEY` | Your Bag API key (`bag_test_sk_*` for sandbox) |
+| `BAG_BASE_URL` | API base URL (defaults to `https://justusebag.xyz`) |
 
-## Learn More
+Get your test API key from the [Bag dashboard](https://justusebag.xyz) → Developer Settings.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+sdk-sample/
+├── app/
+│   ├── page.tsx              # Storefront with pricing cards
+│   ├── success/page.tsx      # Post-payment success page
+│   ├── dashboard/page.tsx    # Payment links & transactions viewer
+│   └── api/
+│       ├── checkout/route.ts     # Creates payment link → redirects to Bag checkout
+│       ├── links/route.ts        # List/create payment links via SDK
+│       ├── links/[id]/route.ts   # Update/delete a payment link
+│       └── transactions/route.ts # List transactions via SDK
+├── lib/
+│   ├── bag.ts                # SDK client initialization
+│   └── sdk/                  # SDK type definitions
+├── browser-test.mjs          # Playwright test for the storefront flow
+├── storefront-test.mjs       # Playwright test for checkout redirect flow
+└── test-screenshots/         # Generated test screenshots
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How the checkout flow works
 
-## Deploy on Vercel
+1. Customer clicks **Buy** on a product card
+2. Your API route calls `bag.paymentLinks.create()` to create a payment link
+3. Customer is redirected to `https://justusebag.xyz/pay/{linkId}` (Bag's hosted checkout)
+4. Customer pays with USDC on the selected network
+5. Customer returns to your `/success` page
+6. Bag sends a webhook to your server confirming the payment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Running browser tests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The repo includes Playwright-based browser tests:
+
+```bash
+# Install Playwright
+npx playwright install chromium
+
+# Start the dev server first
+npm run dev
+
+# Run the tests
+node browser-test.mjs
+node storefront-test.mjs
+```
+
+Screenshots are saved to `test-screenshots/`.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) 16
+- [Tailwind CSS](https://tailwindcss.com) 4
+- [@tbagtapp/sdk](https://www.npmjs.com/package/@tbagtapp/sdk) — Bag TypeScript SDK
+
+## Learn more
+
+- [Bag Documentation](https://docs.justusebag.xyz)
+- [Quickstart Guide](https://docs.justusebag.xyz/docs/getting-started/quickstart)
+- [TypeScript SDK Reference](https://docs.justusebag.xyz/docs/sdks/typescript)
+- [API Reference](https://docs.justusebag.xyz/docs/api-reference)

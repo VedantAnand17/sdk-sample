@@ -1,0 +1,42 @@
+[
+  {
+    "step": "navigate",
+    "url": "http://localhost:3001",
+    "title": "Bag SDK Sample",
+    "hasContent": true
+  },
+  {
+    "step": "1-initial-page",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/1-initial-page.png"
+  },
+  {
+    "step": "click-create",
+    "formVisible": true
+  },
+  {
+    "step": "2-create-form",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/2-create-form.png"
+  },
+  {
+    "step": "3-form-filled",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/3-form-filled.png"
+  },
+  {
+    "step": "create",
+    "success": true,
+    "hasProPlan": true,
+    "hasAmount": true
+  },
+  {
+    "step": "4-created-link",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/4-created-link.png"
+  },
+  {
+    "step": "transactions",
+    "visible": true
+  },
+  {
+    "step": "5-transactions-view",
+    "screenshot": "/home/vedant/codes/getbagsapp/test-screenshots/5-transactions-view.png"
+  }
+]
