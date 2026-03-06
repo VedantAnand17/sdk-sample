@@ -1,6 +1,6 @@
 # Bag SDK Sample
 
-A sample Next.js storefront demonstrating how to integrate [Bag](https://justusebag.xyz) — the Merchant of Record for stablecoin payments — using the `@tbagtapp/sdk` TypeScript SDK.
+A sample Next.js storefront demonstrating how to integrate [Bag](https://getbags.app) — the Merchant of Record for stablecoin payments — using the `@tbagtapp/sdk` TypeScript SDK.
 
 ## What this shows
 
@@ -34,9 +34,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the storefront.
 | Variable | Description |
 | --- | --- |
 | `BAG_API_KEY` | Your Bag API key (`bag_test_sk_*` for sandbox) |
-| `BAG_BASE_URL` | API base URL (defaults to `https://justusebag.xyz`) |
+| `BAG_BASE_URL` | API base URL (defaults to `https://getbags.app`) |
 
-Get your test API key from the [Bag dashboard](https://justusebag.xyz) → Developer Settings.
+Get your test API key from the [Bag dashboard](https://getbags.app) → Developer Settings.
 
 ## Project structure
 
@@ -63,7 +63,7 @@ sdk-sample/
 
 1. Customer clicks **Buy** on a product card
 2. Your API route calls `bag.paymentLinks.create()` to create a payment link
-3. Customer is redirected to `https://justusebag.xyz/pay/{linkId}` (Bag's hosted checkout)
+3. Customer is redirected to `https://getbags.app/pay/{linkId}` (Bag's hosted checkout)
 4. Customer pays with USDC on the selected network
 5. Customer returns to your `/success` page
 6. Bag sends a webhook to your server confirming the payment
@@ -94,7 +94,7 @@ Screenshots are saved to `test-screenshots/`.
 
 ## Learn more
 
-- [Bag Documentation](https://docs.justusebag.xyz)
-- [Quickstart Guide](https://docs.justusebag.xyz/docs/getting-started/quickstart)
-- [TypeScript SDK Reference](https://docs.justusebag.xyz/docs/sdks/typescript)
-- [API Reference](https://docs.justusebag.xyz/docs/api-reference)
+- [Bag Documentation](https://docs.getbags.app)
+- [Quickstart Guide](https://docs.getbags.app/docs/getting-started/quickstart)
+- [TypeScript SDK Reference](https://docs.getbags.app/docs/sdks/typescript)
+- [API Reference](https://docs.getbags.app/docs/api-reference)

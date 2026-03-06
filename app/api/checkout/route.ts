@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { bag } from "@/lib/bag";
 import type { CreatePaymentLinkInput } from "@/lib/sdk/index.js";
 
-const BAG_CHECKOUT_URL = process.env.BAG_BASE_URL || "https://justusebag.xyz";
+const BAG_CHECKOUT_URL = process.env.BAG_BASE_URL || "https://getbags.app";
 
 export async function POST(request: NextRequest) {
   try {
