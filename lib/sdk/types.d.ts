@@ -1,9 +1,25 @@
 export interface BagConfig {
     apiKey: string;
     baseUrl?: string;
+    timeout?: number;
+    maxRetries?: number;
+}
+export interface RequestOptions {
+    idempotencyKey?: string;
+    timeout?: number;
+    signal?: AbortSignal;
 }
 export type TransactionStatus = 'broadcasted' | 'pending' | 'confirming' | 'completed' | 'failed' | 'refunded';
 export type Network = 'base' | 'ethereum' | 'polygon' | 'solana' | 'base_sepolia' | 'eth_sepolia' | 'solana_devnet';
+export type CheckoutSessionState = 'payment_session_created' | 'txn_broadcast' | 'txn_confirming' | 'txn_finalized' | 'complete' | 'failed' | 'expired' | 'manual_retry_needed';
+export interface ListParams {
+    limit?: number;
+    starting_after?: string;
+}
+export interface PaginatedList<T> {
+    data: T[];
+    hasMore: boolean;
+}
 export interface PaymentLink {
     id: string;
     name: string;
@@ -73,7 +89,7 @@ export interface CreateTransactionInput {
 }
 export interface CheckoutSession {
     sessionId: string;
-    status: string;
+    status: CheckoutSessionState;
     quote: {
         subtotalCents: number;
         taxCents: number;
@@ -84,7 +100,7 @@ export interface CheckoutSession {
 }
 export interface CheckoutSessionStatus {
     sessionId: string;
-    status: string;
+    status: CheckoutSessionState;
     txHash?: string;
     confirmations?: number;
     blockNumber?: string;
@@ -150,7 +166,12 @@ export interface TaxQuoteResult {
 export interface ApiResponse<T> {
     status: 'success' | 'error';
     data?: T;
+    hasMore?: boolean;
     message?: string;
     code?: string;
     hint?: string;
+}
+export interface ResponseMetadata {
+    statusCode: number;
+    requestId?: string;
 }

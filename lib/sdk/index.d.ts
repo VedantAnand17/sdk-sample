@@ -10,4 +10,4 @@ export declare class Bag {
     constructor(config: BagConfig);
 }
 export { BagError } from './client.js';
-export type { BagConfig, PaymentLink, CreatePaymentLinkInput, UpdatePaymentLinkInput, Transaction, CreateTransactionInput, CheckoutSession, CheckoutSessionStatus, CheckoutSubmitResult, CreateCheckoutSessionInput, TaxQuoteInput, TaxQuoteResult, TransactionStatus, Network, ApiResponse, } from './types.js';
+export type { BagConfig, RequestOptions, ListParams, PaginatedList, ResponseMetadata, PaymentLink, CreatePaymentLinkInput, UpdatePaymentLinkInput, Transaction, CreateTransactionInput, CheckoutSession, CheckoutSessionState, CheckoutSessionStatus, CheckoutSubmitResult, CreateCheckoutSessionInput, TaxQuoteInput, TaxQuoteResult, TransactionStatus, Network, ApiResponse, } from './types.js';

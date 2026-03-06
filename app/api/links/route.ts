@@ -3,8 +3,8 @@ import { bag } from "@/lib/bag";
 
 export async function GET() {
   try {
-    const links = await bag.paymentLinks.list();
-    return NextResponse.json(links);
+    const { data } = await bag.paymentLinks.list();
+    return NextResponse.json(data);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal error";
     return NextResponse.json({ error: message }, { status: 500 });
