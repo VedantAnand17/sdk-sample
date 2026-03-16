@@ -35,7 +35,7 @@ yarn-error.log*
 !.env.example
 
 # test screenshots (generated)
-test-screenshots/*.png
+test-screenshots/
 
 # vercel
 .vercel

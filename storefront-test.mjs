@@ -3,7 +3,8 @@ import { chromium } from 'playwright';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
-const STOREFRONT_URL = 'http://localhost:3001';
+const STOREFRONT_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
+const CHECKOUT_HOST = process.env.BAG_BASE_URL || 'http://localhost:3000';
 const SCREENSHOT_DIR = new URL('./test-screenshots', import.meta.url).pathname;
 
 async function run() {
@@ -36,9 +37,10 @@ async function run() {
     await page.getByRole('button', { name: 'Buy for $9.99' }).click();
     await page.waitForTimeout(3000); // Wait for redirect
 
-    // Step 3: Check we're on checkout page (localhost:3000/pay/[uuid])
+    // Step 3: Check we're on checkout page (/pay/[uuid] on expected host)
     const url = page.url();
-    const isCheckout = url.includes('/pay/') && (url.includes('localhost:3000') || url.includes('127.0.0.1:3000'));
+    const checkoutHost = new URL(CHECKOUT_HOST).host;
+    const isCheckout = url.includes('/pay/') && url.includes(checkoutHost);
     results.push({ step: 'redirect', url, isCheckout });
     await takeScreenshot('2-checkout');
 

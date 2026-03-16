@@ -30,16 +30,29 @@ export default function Dashboard() {
   const [links, setLinks] = useState<PaymentLink[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const [linksRes, txRes] = await Promise.all([
-      fetch("/api/links").then((r) => r.json()).catch(() => []),
-      fetch("/api/transactions").then((r) => r.json()).catch(() => []),
-    ]);
-    setLinks(Array.isArray(linksRes) ? linksRes : []);
-    setTransactions(Array.isArray(txRes) ? txRes : []);
-    setLoading(false);
+    setError(null);
+    try {
+      const [linksRes, txRes] = await Promise.all([
+        fetch("/api/links").then(async (r) => {
+          if (!r.ok) throw new Error("Failed to load payment links");
+          return r.json();
+        }),
+        fetch("/api/transactions").then(async (r) => {
+          if (!r.ok) throw new Error("Failed to load transactions");
+          return r.json();
+        }),
+      ]);
+      setLinks(Array.isArray(linksRes) ? linksRes : []);
+      setTransactions(Array.isArray(txRes) ? txRes : []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => { refresh(); }, [refresh]);
@@ -64,6 +77,11 @@ export default function Dashboard() {
           {[1, 2, 3].map((i) => (
             <div key={i} className="h-16 bg-[var(--card)] border border-[var(--card-border)] rounded-xl animate-pulse" />
           ))}
+        </div>
+      ) : error ? (
+        <div className="p-4 bg-[var(--danger)]/10 border border-[var(--danger)]/30 rounded-xl text-[var(--danger)]">
+          <p className="font-medium">Error loading dashboard</p>
+          <p className="text-sm mt-1">{error}</p>
         </div>
       ) : (
         <>

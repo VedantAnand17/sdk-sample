@@ -1,19 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { bag } from "@/lib/bag";
-import type { CreatePaymentLinkInput } from "@/lib/sdk/index.js";
+import type { CreatePaymentLinkInput } from "@tbagtapp/sdk";
 
 const BAG_CHECKOUT_URL = process.env.BAG_BASE_URL || "https://getbags.app";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, amount, description, returnPath } = await request.json();
+    const body = await request.json();
+    const { name, amount, description, returnPath } = body;
+
+    if (!name || typeof name !== "string" || name.trim() === "") {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
+    }
+    const numAmount = Number(amount);
+    if (typeof amount === "undefined" || amount === null || Number.isNaN(numAmount) || numAmount <= 0) {
+      return NextResponse.json({ error: "amount must be a positive number" }, { status: 400 });
+    }
 
     const origin = request.headers.get("origin") || request.headers.get("referer")?.replace(/\/$/, "") || "";
     const isLocalDev = origin.startsWith("http://localhost") || origin.startsWith("http://127.0.0.1");
 
     const createInput: CreatePaymentLinkInput = {
-      name,
-      amount,
+      name: name.trim(),
+      amount: numAmount,
       description,
       network: "base_sepolia",
     };
